@@ -11,7 +11,13 @@ class CourseController extends Controller
      */
     public function index()
     {
-        //
+        $courses = Course::all();
+        return view('courses.index', compact('courses'));
+        Course::create($request->all());
+
+        return redirect()->route('courses.index')
+            ->with('success', 'Course created successfully.');
+    }
     }
 
     /**
@@ -27,7 +33,10 @@ class CourseController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'description' => 'required',
+        ]);
     }
 
     /**
@@ -54,11 +63,17 @@ class CourseController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+;
+
+
+
+    public function destroy(Course $course)
     {
-        //
+        $course->delete();
+
+        return redirect()->route('courses.index')
+            ->with('success', 'Course deleted successfully.');
     }
 }
+
+

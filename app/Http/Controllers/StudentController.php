@@ -61,4 +61,39 @@ class StudentController extends Controller
     {
         //
     }
+ 
+
+
+    
+  
+
+
+
+
+    public function search(Request request)
+    {
+        $query = $request->input('q');
+        $students = Student::where('name', 'like', "%{$query}%")->get();
+        return response()->json($students);
+    }
+
+
+
+
+    public function index(Request $request)
+    {
+        if ($request->ajax()) {
+            $query = $request->input('q');
+            $students = Student::where('name', 'like', "%{$query}%")->get();
+            return response()->json($students);
+        }
+
+        $students = Student::all();
+        return view('students.index', compact('students'));
+    }
+
+
+
+
 }
+
